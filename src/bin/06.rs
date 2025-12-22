@@ -47,7 +47,6 @@ pub fn part_two(input: &str) -> Option<u64> {
     let mut sum = 0;
     let mut operands = Vec::new();
     for operand in numbers {
-        
         if let Some(op) = operand {
             operands.push(op);
         } else {

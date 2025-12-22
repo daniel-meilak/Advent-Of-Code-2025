@@ -8,7 +8,6 @@ const BOXES: usize = 10;
 #[cfg(not(test))]
 const BOXES: usize = 1000;
 
-
 fn distance(a: &[usize], b: &[usize]) -> usize {
     let dx = a[0].abs_diff(b[0]);
     let dy = a[1].abs_diff(b[1]);
@@ -18,9 +17,9 @@ fn distance(a: &[usize], b: &[usize]) -> usize {
 
 fn connect_boxes(input: &str, max_connections: usize) -> (HashMap<usize, HashSet<usize>>, usize) {
     let boxes: Vec<Vec<usize>> = input
-    .lines()
-    .filter_map(|l| l.split(',').map(|s| s.parse().ok()).collect())
-    .collect();
+        .lines()
+        .filter_map(|l| l.split(',').map(|s| s.parse().ok()).collect())
+        .collect();
 
     let mut distances: Vec<_> = Vec::new();
     for (i, box_i) in boxes.iter().enumerate() {
@@ -33,7 +32,7 @@ fn connect_boxes(input: &str, max_connections: usize) -> (HashMap<usize, HashSet
 
     let mut count = 0;
     let mut groups: HashMap<usize, HashSet<usize>> = HashMap::new();
-    let mut circuit: HashMap<usize, usize>  = HashMap::new();
+    let mut circuit: HashMap<usize, usize> = HashMap::new();
     for (i, j, _) in distances.iter().take(max_connections) {
         if circuit.contains_key(i) && circuit.contains_key(j) {
             if circuit[i] != circuit[j] {
@@ -45,10 +44,10 @@ fn connect_boxes(input: &str, max_connections: usize) -> (HashMap<usize, HashSet
                     }
                 }
                 let boxes = groups.remove(&to_remove).unwrap();
-                if let Some(value) = groups.get_mut(&circuit[j]){
+                if let Some(value) = groups.get_mut(&circuit[j]) {
                     value.extend(boxes);
                 }
-            } 
+            }
         } else if circuit.contains_key(i) && !circuit.contains_key(j) {
             circuit.insert(*j, circuit[i]);
             if let Some(value) = groups.get_mut(&circuit[i]) {
@@ -63,7 +62,7 @@ fn connect_boxes(input: &str, max_connections: usize) -> (HashMap<usize, HashSet
             let index = count;
             count += 1;
             circuit.insert(*i, index);
-            circuit.insert(*j,  index);
+            circuit.insert(*j, index);
             groups.insert(index, HashSet::from([*i, *j]));
         }
 
@@ -91,7 +90,7 @@ pub fn part_one(input: &str) -> Option<usize> {
 
 pub fn part_two(input: &str) -> Option<usize> {
     let (_, x_coords_multiplied) = connect_boxes(input, usize::MAX);
-    
+
     Some(x_coords_multiplied)
 }
 
