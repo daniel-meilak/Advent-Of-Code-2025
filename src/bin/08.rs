@@ -28,7 +28,7 @@ fn connect_boxes(input: &str, max_connections: usize) -> (HashMap<usize, HashSet
         }
     }
 
-    distances.sort_by(|a, b: &(usize, usize, usize)| a.2.cmp(&b.2));
+    distances.sort_by_key(|a| a.2);
 
     let mut count = 0;
     let mut groups: HashMap<usize, HashSet<usize>> = HashMap::new();
