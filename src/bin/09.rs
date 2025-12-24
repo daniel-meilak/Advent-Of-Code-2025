@@ -48,10 +48,10 @@ pub fn part_two(input: &str) -> Option<i64> {
         .iter()
         .find(|(p1, p2, _)| {
             tiles.windows(2).all(|edge| {
-                p1.1.max(p2.1) <= edge[0].1.min(edge[1].1) ||
-                p1.1.min(p2.1) >= edge[0].1.max(edge[1].1) ||
-                p1.0.max(p2.0) <= edge[0].0.min(edge[1].0) ||
-                p1.0.min(p2.0) >= edge[0].0.max(edge[1].0)
+                p1.1.max(p2.1) <= edge[0].1.min(edge[1].1)
+                    || p1.1.min(p2.1) >= edge[0].1.max(edge[1].1)
+                    || p1.0.max(p2.0) <= edge[0].0.min(edge[1].0)
+                    || p1.0.min(p2.0) >= edge[0].0.max(edge[1].0)
             })
         })
         .map(|max| max.2)
