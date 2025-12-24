@@ -36,7 +36,7 @@ pub fn part_one(input: &str) -> Option<u64> {
     let mut fresh_count = 0;
     for id in ids.lines().filter_map(|s| s.parse::<u64>().ok()) {
         for (start, end) in &ranges {
-            if id < *end && id > *start {
+            if id <= *end && id >= *start {
                 fresh_count += 1;
                 break;
             }
