@@ -1,7 +1,5 @@
 advent_of_code::solution!(6);
 
-// fn accumulate()
-
 pub fn part_one(input: &str) -> Option<u64> {
     let equations: Vec<Vec<_>> = input
         .trim()
