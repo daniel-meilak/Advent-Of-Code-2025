@@ -23,7 +23,12 @@ fn parse(input: &str) -> Option<HashMap<&str, Vec<&str>>> {
     Some(graph)
 }
 
-fn count_paths<'a>(graph: &HashMap<&'a str, Vec<&'a str>>, start: &'a str, end: &'a str, memo: &mut HashMap<&'a str, u64>) -> u64 {
+fn count_paths<'a>(
+    graph: &HashMap<&'a str, Vec<&'a str>>,
+    start: &'a str,
+    end: &'a str,
+    memo: &mut HashMap<&'a str, u64>,
+) -> u64 {
     if start == end {
         return 1;
     }
@@ -46,20 +51,20 @@ fn count_paths<'a>(graph: &HashMap<&'a str, Vec<&'a str>>, start: &'a str, end: 
 
 pub fn part_one(input: &str) -> Option<u64> {
     let graph = parse(input)?;
-    
+
     Some(count_paths(&graph, "you", "out", &mut HashMap::new()))
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    let graph = parse(input)?; 
+    let graph = parse(input)?;
 
     let mut midpoint_a = "fft";
     let mut midpoint_b = "dac";
-    let mut middle  = count_paths(&graph, midpoint_a, midpoint_b, &mut HashMap::new());
+    let mut middle = count_paths(&graph, midpoint_a, midpoint_b, &mut HashMap::new());
 
     if middle == 0 {
         (midpoint_a, midpoint_b) = (midpoint_b, midpoint_a);
-        middle  = count_paths(&graph, midpoint_a, midpoint_b, &mut HashMap::new());
+        middle = count_paths(&graph, midpoint_a, midpoint_b, &mut HashMap::new());
     }
 
     let start = count_paths(&graph, "svr", midpoint_a, &mut HashMap::new());
@@ -80,7 +85,9 @@ mod tests {
 
     #[test]
     fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file_part("examples", DAY, 2));
+        let result = part_two(&advent_of_code::template::read_file_part(
+            "examples", DAY, 2,
+        ));
         assert_eq!(result, Some(2));
     }
 }
