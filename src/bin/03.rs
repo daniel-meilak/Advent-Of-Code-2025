@@ -8,7 +8,7 @@ fn maximum_joltage(input: &str, num_batteries: usize) -> Option<u64> {
         let mut batteries = vec!['0'; num_batteries];
         for (j, joltage) in bank.chars().enumerate() {
             for (b, battery) in batteries.iter_mut().enumerate() {
-                if (bank.len() - (num_batteries - b)) < j {
+                if j > bank.len().saturating_sub(num_batteries - b) {
                     continue;
                 }
 
@@ -20,7 +20,9 @@ fn maximum_joltage(input: &str, num_batteries: usize) -> Option<u64> {
             }
         }
 
-        sum += batteries.iter().collect::<String>().parse::<u64>().ok()?;
+        sum += batteries
+            .iter()
+            .fold(0u64, |acc, &c| acc * 10 + (c as u8 - b'0') as u64);
     }
 
     Some(sum)
