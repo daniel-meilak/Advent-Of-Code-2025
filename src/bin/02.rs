@@ -1,32 +1,32 @@
+use itertools::Itertools;
+
 advent_of_code::solution!(2);
 
 fn check_pattern(id: &str, pattern_sizes: &[usize]) -> bool {
-    'next_pattern: for i in pattern_sizes {
-        let section_size = id.len() / i;
-
-        if !id.len().is_multiple_of(*i) {
+    for &i in pattern_sizes {
+        if !id.len().is_multiple_of(i) {
             continue;
         }
 
-        let section = &id[0..section_size];
-        for j in 1..*i {
-            if &id[(section_size * j)..(section_size * (j + 1))] != section {
-                continue 'next_pattern;
-            }
+        let section_size = id.len() / i;
+        if id.as_bytes().chunks(section_size).all_equal() {
+            return true;
         }
-
-        return true;
     }
 
     false
 }
 
 fn find_invalid_ids(input: &str, pattern_sizes: &[usize]) -> Option<u64> {
-    let ranges = input.trim().split(',').filter_map(|s| s.split_once('-'));
+    let ranges = input
+        .trim()
+        .split(',')
+        .filter_map(|s| s.split_once('-'))
+        .filter_map(|(a, b)| Some((a.parse::<u64>().ok()?, b.parse::<u64>().ok()?)));
 
     let mut sum = 0;
     for (start, end) in ranges {
-        for i in start.parse::<u64>().ok()?..=end.parse::<u64>().ok()? {
+        for i in start..=end {
             if check_pattern(&i.to_string(), pattern_sizes) {
                 sum += i;
             }
